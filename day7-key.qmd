@@ -118,7 +118,131 @@ class(time) #POSIXct
 ```{r}
 with_tz(time, "America/Los_Angeles")
 with_tz(time, "Africa/Addis_Ababa")
+
+my_time <- lubridate::ymd_hms(time)
+year(my_time) # gives me the year from my_time
+day(my_time)
+month(my_time)
+hour(my_time)
+minute(my_time)
+second(my_time)
 ```
+
+```{r}
+teddy_bday <- lubridate::ymd("20170615")
+#what day of the week is this:
+wday(teddy_bday, label = TRUE)
+
+alex_bday <- lubridate::ymd("19940701")
+wday(alex_bday, label = TRUE)
+week(alex_bday)
+```
+
+```{r}
+urchin_counts <- tribble(
+  ~date, ~species, ~size_mm,
+  "10/3/2020", "purple", 55,
+  "10/4/2020", "red", 48,
+  "11/17/2020", "red", 67
+)
+
+urchin_ymd <- urchin_counts |>
+  mutate(date = lubridate::mdy(date)) |>
+  mutate(year = year(date),
+         month = month(date),
+         day = day(date))
+
+# mutate to add or remove columns
+```
+
+### Find durataion of times
+
+```{r}
+day_1 <- ymd("2020-01-06")
+day_2 <- ymd("2020-05-18")
+
+# Create a time interval
+time_interval <- interval(day_1, day_2)
+
+# Check the length in years
+time_length(time_interval, "year")
+```
+
+## `stringr` for working with strings
+
+### str_detect
+
+```{r}
+my_string <- "Alex loves eating pasta and dessert."
+my_string |>
+  str_detect("love")
+# TRUE
+my_string |>
+  str_detect("human")
+# FALSE
+
+my_string <- c("burrito", "sandwich", "taco salad")
+my_string |>
+  str_detect("taco")
+# FALSE FALSE TRUE
+```
+
+```{r}
+# filter: keep or exclude rows
+# don't need pattern =
+
+skywalkers <- starwars |>
+  filter(str_detect(name, pattern = "Skywalker"))
+
+maul <- starwars |>
+  filter(str_detect(name, "Maul"))
+
+blue_eyes <- starwars |>
+  filter(str_detect(eye_color, pattern = "blue"))
+```
+
+### `str_replace` to replace string patterns
+
+```{r}
+firewalkers <- starwars |>
+  mutate(name_2 = str_replace(name, pattern = "Sky", replacement = "Fire"))
+```
+
+### `str_trim` or `str_squish` to remove excess white space
+
+```{r}
+feedback <- c(" I ate   some   nachos", "Wednesday morning  ")
+
+# removes leading & trailing whitespaces
+str_trim(feedback) 
+
+# removes leading, trailing & duplicate interior whitespaces
+str_squish(feedback)
+
+str_to_lower(feedback)
+str_to_upper(feedback)
+str_to_title(feedback)
+str_to_sentence(feedback)
+```
+
+```{r}
+# From star wars, create a new data fram starwars_lc that adds a new column called name_lower containing character names converted to all lowercase
+
+starwars_lc <- starwars |>
+  mutate(name_lower = str_to_lower(name))
+```
+
+### `case_when()` 
+
+```{r}
+starwars_robot <- starwars |>
+  mutate(robot_status = case_when(
+    species == "Droid" ~ "A ROBOT",
+    species == "Human" ~ "It's a HUMAN",
+    TRUE ~ "This is something else"
+  ))
+```
+
 
 
 
