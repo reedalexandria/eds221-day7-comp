@@ -6,6 +6,7 @@ editor: visual
 
 ```{r}
 library(tidyverse)
+library(lubridate)
 ```
 
 ## Joins
@@ -76,3 +77,48 @@ semi_join_example <- semi_join(animals, sites)
 ```{r}
 anti_join_example <- anti_join(animals, sites)
 ```
+
+## Dates and times with `lubridate`
+
+### YYYY-MM-DD
+
+```{r}
+my_date1 <- "03-15-1998"
+# mdy, ymd, dmy
+lubridate::mdy(my_date1)
+
+my_date2 <- "11/7/2003"
+lubridate::dmy(my_date2)
+
+my_date3 <- "08-Jun-1974"
+lubridate::dmy(my_date3)
+
+my_date4 <- "19610518"
+my_real_date <- lubridate::ymd(my_date4)
+
+#class(my_real_date) will show that the class is Date 
+```
+
+```{r}
+lubridate::ymd("1942-08-30")
+
+lubridate::mdy("09/22/84")
+```
+
+```{r}
+time <- "2020-08-12 11:18"
+time <- ymd_hm(time) 
+time
+class(time) #POSIXct
+
+# can have time <- lubridate::ymd_hm(time)
+```
+
+#### Converting timezones 
+```{r}
+with_tz(time, "America/Los_Angeles")
+with_tz(time, "Africa/Addis_Ababa")
+```
+
+
+
