@@ -8,7 +8,7 @@ editor: visual
 library(tidyverse)
 ```
 
-## Joins 
+## Joins
 
 ```{r}
 animals <- tibble::tribble(
@@ -51,13 +51,13 @@ nonmatching <- full_join(animals, sites_2, by = c("location" = "loc"))
 # when the key differs by spelling 
 ```
 
-#### Left join 
+#### Left join
 
 ```{r}
 left_join_example <- left_join(animals, sites)
 ```
 
-#### Inner join 
+#### Inner join
 
 ```{r}
 inner_join_example <- inner_join(animals, sites)
@@ -65,7 +65,7 @@ inner_join_example <- inner_join(animals, sites)
 
 ### Filtering joins:
 
-#### Semi join 
+#### Semi join
 
 ```{r}
 semi_join_example <- semi_join(animals, sites)
